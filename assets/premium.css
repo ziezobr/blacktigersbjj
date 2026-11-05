@@ -11,3 +11,25 @@ html{scroll-behavior:smooth;scroll-padding-top:105px}body{background:#0a0a0b;col
 @media(min-width:1600px){.pro-hero-inner,.pro-shell{width:85%}}
 @media(max-width:1000px){.pro-hero h1{font-size:64px}.pro-hero-shade{background:linear-gradient(90deg,#080809f5,#080809b0 45%,#08080930),linear-gradient(0deg,#0a0a0b,transparent 35%)}.bt-journey{gap:5%;padding:80px 0}.bt-journey-photo{height:560px}.pro-header .stream-nav{gap:15px}.pro-header .topbar{padding:0 4%}.bt-discipline{font-size:9px;letter-spacing:.12em}.pro-global{gap:35px}}
 @media(max-width:700px){.pro-header .topbar{height:72px}.pro-status{margin-top:72px;font-size:9px;letter-spacing:.06em}.pro-hero{height:auto;min-height:650px}.pro-hero>img{opacity:.67;object-position:64% center}.pro-hero-inner{width:88%;padding:90px 0 65px}.pro-hero h1{font-size:clamp(43px,9.5vw,65px);margin:25px 0;max-width:590px;letter-spacing:-.055em}.pro-hero p{font-size:14px;max-width:360px}.pro-hero-shade{background:linear-gradient(90deg,#080809d9,#08080960),linear-gradient(0deg,#0a0a0b,transparent 60%)}.pro-hero .eyebrow{font-size:8px}.pro-hero-tags{gap:9px;flex-wrap:wrap;margin-top:45px}.pro-hero-tags .bt-hero-label{font-size:8px;padding-right:10px;letter-spacing:.1em}.pro-actions .btn{font-size:11px;padding:14px 18px}.bt-discipline{justify-content:flex-start;gap:24px;padding:19px 6%;font-size:9px}.bt-discipline i{font-size:18px}.pro-shell{width:88%}.bt-journey{grid-template-columns:1fr;padding:65px 0;gap:35px}.bt-journey-photo{height:360px}.bt-journey-copy h2{font-size:38px}.bt-journey li{padding:18px 0}.pro-section-head h2{font-size:34px}.pro-catalog-section{padding-bottom:65px}.pro-flow-feature{padding:32px 27px;margin-bottom:65px}.pro-flow-feature h2{font-size:52px}.pro-flow-feature>span{font-size:40px}.pro-flow-feature:after{font-size:110px;bottom:-25px}.pro-global{grid-template-columns:1fr;padding-bottom:65px}.pro-globe{display:none}.pro-global h2,.pro-faq h2{font-size:34px}.pro-faq{padding-bottom:65px}.pro-faq summary{font-size:14px}.stream-footer-inner{width:88%;padding:40px 0;gap:35px}.pro-legal-footer{padding-bottom:100px}.pro-plan{padding:28px}.pro-main{padding-top:40px}.pro-header .brand-copy strong{font-size:13px}.pro-header .brand-copy small{font-size:7px}.pro-header .brand-logo{width:36px;height:36px}.pro-header .top-actions{gap:6px}.pro-header .pro-login{padding:10px 13px;font-size:11px}.pro-language select{width:64px;font-size:10px}}
+
+/* Mobile Flow: the feed owns the vertical gesture and snaps one clip at a time. */
+.admin-home-mobile{display:none}
+@media(max-width:700px){
+  body[data-page="flow"]{overflow:hidden;height:100dvh;overscroll-behavior-y:none}
+  body[data-page="flow"] .flow-page{position:fixed;inset:72px 0 calc(68px + env(safe-area-inset-bottom,0px));padding:0;background:#050506;overflow:hidden}
+  body[data-page="flow"] .flow-heading{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0}
+  body[data-page="flow"] .flow-feed{height:100%;max-width:none;width:100%;margin:0;border:0;border-radius:0;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;overscroll-behavior-y:contain;touch-action:pan-y;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding:0}
+  body[data-page="flow"] .flow-feed::-webkit-scrollbar{display:none}
+  body[data-page="flow"] .flow-item{height:100%;min-height:100%;scroll-snap-align:start;scroll-snap-stop:always;touch-action:pan-y}
+  body[data-page="flow"] .flow-media,body[data-page="flow"] .tiger-player{border-radius:0;touch-action:pan-y}
+  body[data-page="flow"] .flow-caption{bottom:100px;left:18px;right:55px}
+  body[data-page="flow"] .flow-caption h2{font-size:23px;line-height:1.2}
+  body[data-page="flow"] .flow-caption p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  body[data-page="flow"] .flow-caption .btn{min-height:40px;margin-top:8px}
+  body[data-page="flow"] .flow-arrows{z-index:3}
+  body[data-page="flow"] .flow-empty{min-height:100%;padding:35px 24px}
+  body[data-page="flow"] .stream-footer,body[data-page="flow"] .pro-legal-footer{display:none}
+  body[data-page="flow"] .mobile-dock{height:calc(68px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px)}
+  body[data-page="admin"] .admin-home-mobile{display:inline-flex;align-items:center;gap:9px;align-self:flex-start;min-height:44px;padding:10px 15px;border:1px solid #ffffff35;border-radius:5px;background:#ffffff0a;color:#fff;font-size:12px;font-weight:700;text-decoration:none}
+  .admin-home-mobile .icon{width:17px;height:17px}
+}
