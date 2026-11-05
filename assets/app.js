@@ -1,7 +1,7 @@
 const page = document.body.dataset.page || 'home';
 const callbackType = new URLSearchParams(location.hash.slice(1)).get('type');
 if (page !== 'entrar' && (['recovery','invite'].includes(callbackType) || new URLSearchParams(location.hash.slice(1)).has('error'))) location.replace('/blacktigersbjj/entrar/?modo=redefinir' + location.hash);
-const adminSection = document.body.dataset.adminSection || (location.pathname.split('/blacktigersbjj/').filter(Boolean)[1] || 'overview');
+const adminSection = document.body.dataset.adminSection || (location.pathname.replace(/^\/blacktigersbjj(?=\/|$)/,'').split('/').filter(Boolean)[1] || 'overview');
 const root = document.getElementById('root');
 const bt = window.BTI18n;
 const tr = (key, fallback) => bt?.t(key, fallback) ?? fallback;
