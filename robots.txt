@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /conta/
+Disallow: /entrar/
+Disallow: /seguranca/
+Disallow: /checkout/
+Disallow: /assistir/
+Sitemap: https://ziezobr.github.io/blacktigersbjj/sitemap.xml
