@@ -16,9 +16,9 @@
       finally{clearTimeout(timer);init.signal?.removeEventListener('abort',abort);}
     },
     safeImage(value) {
-      if (!value) return '/blacktigersbjj/assets/black-tigers-logo.png';
-      try {const url=new URL(String(value),location.origin);return ((url.origin===location.origin && ['http:','https:'].includes(url.protocol))||url.protocol==='https:')?url.href:'/blacktigersbjj/assets/black-tigers-logo.png';}
-      catch{return '/blacktigersbjj/assets/black-tigers-logo.png';}
+      if (!value) return '/blacktigersbjj/assets/black-tigers-logo-small.png';
+      try {const url=new URL(String(value),location.origin);return ((url.origin===location.origin && ['http:','https:'].includes(url.protocol))||url.protocol==='https:')?url.href:'/blacktigersbjj/assets/black-tigers-logo-small.png';}
+      catch{return '/blacktigersbjj/assets/black-tigers-logo-small.png';}
     },
     storedList(key) {
       try{const data=JSON.parse(window.BTStorage.getItem(key)||'[]');return Array.isArray(data)?[...new Set(data.filter(v=>typeof v==='string'&&v.length<=160))].slice(0,1000):[];}catch{return [];}

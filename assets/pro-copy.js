@@ -11,3 +11,5 @@ window.BT_PRO_COPY["pt-PT"].viewPlans="Conhecer os planos";
 window.BT_PRO_COPY["en"].viewPlans="Explore plans";
 window.BT_PRO_COPY["es"].viewPlans="Ver los planes";
 window.BT_PRO_COPY["it"].viewPlans="Scopri i piani";
+
+for(const [locale,text] of Object.entries({'pt-BR':'Este formato de vídeo não é compatível com este navegador.','pt-PT':'Este formato de vídeo não é compatível com este navegador.',en:'This video format is not supported by this browser.',es:'Este formato de vídeo no es compatible con este navegador.',it:'Questo formato video non è supportato dal browser.'}))window.BT_PRO_COPY[locale].flowUnsupported=text;

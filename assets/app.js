@@ -61,7 +61,7 @@ function languageControl(compact = false) {
 
 function brand(compact = false) {
   return `<a class="brand ${compact ? 'brand-compact' : ''}" href="/blacktigersbjj/" aria-label="Black Tigers BJJ">
-    <span class="brand-mark brand-logo"><img src="/blacktigersbjj/assets/black-tigers-logo.png" alt=""></span>
+    <span class="brand-mark brand-logo"><img src="/blacktigersbjj/assets/black-tigers-logo-small.png" alt=""></span>
     <span class="brand-copy"><strong>BLACK TIGERS</strong><small>BRAZILIAN JIU-JITSU</small></span>
   </a>`;
 }
@@ -94,7 +94,7 @@ function posterCard(item, rank = null) {
 const courseCard = posterCard;
 
 function mobileDock() {
-  return `<nav class="mobile-dock" aria-label="Navegação móvel"><a class="${page === 'home' ? 'active' : ''}" href="/blacktigersbjj/">${icons.home}<span>Início</span></a><a class="${page === 'catalogo' ? 'active' : ''}" href="/blacktigersbjj/catalogo/">${icons.grid}<span>Cursos</span></a><button id="mobileSearchOpen" type="button">${icons.search}<span>Buscar</span></button><a class="${page === 'comunidade' ? 'active' : ''}" href="/blacktigersbjj/comunidade/">${icons.message}<span>Comunidade</span></a><a class="${page === 'conta' ? 'active' : ''}" href="/blacktigersbjj/conta/">${icons.user}<span>Perfil</span></a></nav>`;
+  return `<nav class="mobile-dock" aria-label="Navegação móvel"><a class="${page === 'home' ? 'active' : ''}" href="/blacktigersbjj/">${icons.home}<span>Início</span></a><a class="${page === 'catalogo' ? 'active' : ''}" href="/blacktigersbjj/catalogo/">${icons.grid}<span>Cursos</span></a><button id="mobileSearchOpen" type="button">${icons.search}<span>Buscar</span></button><a class="${page === 'flow' ? 'active' : ''}" href="/blacktigersbjj/flow/">${icons.play}<span>Tiger Flow</span></a><a class="${page === 'conta' ? 'active' : ''}" href="/blacktigersbjj/conta/">${icons.user}<span>Perfil</span></a></nav>`;
 }
 
 function streamRow(title, subtitle, items, id, ranked = false) {
@@ -106,7 +106,7 @@ function searchOverlay() {
 }
 
 function pageLoader() {
-  return `<div class="bt-loader" id="btLoader"><img src="/blacktigersbjj/assets/black-tigers-logo.png" alt=""><span>BLACK TIGERS</span><i></i></div>`;
+  return `<div class="bt-loader" id="btLoader"><img src="/blacktigersbjj/assets/black-tigers-logo-small.png" alt=""><span>BLACK TIGERS</span><i></i></div>`;
 }
 
 
@@ -116,7 +116,7 @@ function pageLoader() {
 
 
 function loginPage() {
-  return `<main class="auth-wrap"><section class="auth-showcase"><a href="/blacktigersbjj/">${brand()}</a><div><span class="eyebrow">TREINE. APRENDA. EVOLUA.</span><h2>BLACK<br>TIGERS</h2><p>Seu tatame digital, disponível em qualquer lugar.</p></div><img src="/blacktigersbjj/assets/black-tigers-logo.png" alt=""></section><section class="auth-panel">${languageControl()}<div class="auth-card"><span class="eyebrow">${tr('auth.area','ÁREA DO ALUNO')}</span><h1>${tr('auth.welcome','Bem-vindo de volta.')}</h1><p>${tr('auth.subtitle','Entre para acessar suas aulas, trilhas e progresso.')}</p><div class="auth-tabs"><button class="active" data-auth-tab="login">${tr('auth.login','Entrar')}</button><button data-auth-tab="signup">${tr('auth.signup','Criar conta')}</button></div><form id="loginForm" class="auth-form"><label>${tr('auth.email','E-mail')}<input name="email" type="email" required autocomplete="email" placeholder="voce@email.com"></label><label>${tr('auth.password','Senha')}<input name="password" type="password" required minlength="6" autocomplete="current-password" placeholder="••••••••"></label><div class="form-row"><span></span><button class="inline-link" type="button" id="forgotPassword">${tr('auth.forgot','Esqueci minha senha')}</button></div><button class="btn btn-primary btn-block" type="submit">${tr('auth.login','Entrar')}</button></form><form id="signupForm" class="auth-form" hidden><label>${tr('auth.name','Nome')}<input name="name" required maxlength="80" autocomplete="name"></label><label>${tr('auth.email','E-mail')}<input name="email" type="email" required autocomplete="email"></label><label>${tr('auth.password','Senha')}<input name="password" type="password" required minlength="12" autocomplete="new-password"></label><button class="btn btn-primary btn-block" type="submit">${tr('auth.create','Criar minha conta')}</button></form><p class="auth-status" id="authStatus" role="status"></p><a class="back-link auth-back" href="/blacktigersbjj/">← Voltar ao site</a></div></section></main>`;
+  return `<main class="auth-wrap"><section class="auth-showcase"><a href="/blacktigersbjj/">${brand()}</a><div><span class="eyebrow">TREINE. APRENDA. EVOLUA.</span><h2>BLACK<br>TIGERS</h2><p>Seu tatame digital, disponível em qualquer lugar.</p></div><img src="/blacktigersbjj/assets/black-tigers-logo-small.png" alt=""></section><section class="auth-panel">${languageControl()}<div class="auth-card"><span class="eyebrow">${tr('auth.area','ÁREA DO ALUNO')}</span><h1>${tr('auth.welcome','Bem-vindo de volta.')}</h1><p>${tr('auth.subtitle','Entre para acessar suas aulas, trilhas e progresso.')}</p><div class="auth-tabs"><button class="active" data-auth-tab="login">${tr('auth.login','Entrar')}</button><button data-auth-tab="signup">${tr('auth.signup','Criar conta')}</button></div><form id="loginForm" class="auth-form"><label>${tr('auth.email','E-mail')}<input name="email" type="email" required autocomplete="email" placeholder="voce@email.com"></label><label>${tr('auth.password','Senha')}<input name="password" type="password" required minlength="6" autocomplete="current-password" placeholder="••••••••"></label><div class="form-row"><span></span><button class="inline-link" type="button" id="forgotPassword">${tr('auth.forgot','Esqueci minha senha')}</button></div><button class="btn btn-primary btn-block" type="submit">${tr('auth.login','Entrar')}</button></form><form id="signupForm" class="auth-form" hidden><label>${tr('auth.name','Nome')}<input name="name" required maxlength="80" autocomplete="name"></label><label>${tr('auth.email','E-mail')}<input name="email" type="email" required autocomplete="email"></label><label>${tr('auth.password','Senha')}<input name="password" type="password" required minlength="12" autocomplete="new-password"></label><button class="btn btn-primary btn-block" type="submit">${tr('auth.create','Criar minha conta')}</button></form><p class="auth-status" id="authStatus" role="status"></p><a class="back-link auth-back" href="/blacktigersbjj/">← Voltar ao site</a></div></section></main>`;
 }
 
 function accountPage() {
@@ -213,22 +213,73 @@ async function initWatch(){
   document.getElementById('theater').onclick=()=>document.querySelector('.watch-layout').classList.toggle('cinema');
 }
 async function initFlow(){
-  const feed=document.getElementById('flowFeed');
-  try {
-    const videos=(await loadAllPublishedVideos()).filter(v=>v.format==='short');
-    if(!videos.length){feed.innerHTML='<div class="flow-empty"><span>↗</span><h2>Seu próximo ajuste começa aqui.</h2><p>Os vídeos curtos publicados pela equipe aparecerão no Tiger Flow.</p><a class="btn btn-primary" href="/blacktigersbjj/catalogo/">Explorar aulas</a></div>';return;}
-    feed.innerHTML=videos.map(v=>`<article class="flow-item" id="flow-${v.id}"><div class="flow-media" data-flow-video="${v.id}"></div><div class="flow-caption"><span>TIGER FLOW</span><h2>${escapeHTML(v.title)}</h2><p>${escapeHTML(v.description||'')}</p><button class="btn btn-glass" data-flow-save="${v.id}">♡ Salvar</button><button class="btn btn-glass" data-flow-share="${v.id}">Compartilhar</button></div><div class="flow-arrows"><button data-flow-prev aria-label="Vídeo anterior">↑</button><button data-flow-next aria-label="Próximo vídeo">↓</button></div></article>`).join('');
-    let active=null;
-    const observer=new IntersectionObserver(async entries=>{for(const entry of entries){const article=entry.target;if(!entry.isIntersecting||entry.intersectionRatio<.65){if(active===article)active=null;article.querySelector('video')?.pause();continue;}active=article;const media=article.querySelector('.flow-media');let player=media.querySelector('video');if(!player){const v=videos.find(v=>v.id===media.dataset.flowVideo);const {data,error}=await sb.storage.from('bt-course-videos').createSignedUrl(v.storage_path,900);if(error||!data){media.innerHTML='<div class="flow-empty">Entre com uma assinatura ativa para assistir.</div>';continue;}media.innerHTML=playerMarkup(data.signedUrl,window.BTSecurity.safeImage(v.thumbnail_url),true);player=bindPlayer(media.querySelector('.tiger-player'));}if(active===article&&!document.hidden)player.play().catch(()=>{});}}, {root:feed,threshold:[0,.65]});
-    feed.querySelectorAll('.flow-item').forEach(el=>observer.observe(el));
-    const stepFlow=(article,direction)=>{const next=direction>0?article?.nextElementSibling:article?.previousElementSibling;if(next)feed.scrollTo({top:next.offsetTop-feed.firstElementChild.offsetTop,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});};
+  const feed=document.getElementById('flowFeed');if(!feed)return;
+  feed.setAttribute('aria-busy','true');
+  try{
+    if(!sb)throw new Error('Service unavailable');
+    const {data:videos,error}=await sb.from('bt_videos').select('id,title,description,storage_path,thumbnail_url,access_level,duration_seconds').eq('published',true).eq('format','short').order('featured',{ascending:false}).order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!videos?.length){feed.innerHTML='<div class="flow-empty"><span>↗</span><h2>Seu próximo ajuste começa aqui.</h2><p>Os vídeos curtos publicados pela equipe aparecerão no Tiger Flow.</p><a class="btn btn-primary" href="/blacktigersbjj/catalogo/">Explorar aulas</a></div>';return;}
+    feed.innerHTML=videos.map(v=>`<article class="flow-item" id="flow-${v.id}"><div class="flow-media" data-flow-video="${v.id}" aria-live="polite"><div class="flow-loading" role="status">${pro('loading')}</div></div><div class="flow-caption"><span>TIGER FLOW</span><h2>${escapeHTML(v.title)}</h2><p>${escapeHTML(v.description||'')}</p><button class="btn btn-glass" data-flow-save="${v.id}">♡ Salvar</button><button class="btn btn-glass" data-flow-share="${v.id}">Compartilhar</button></div><div class="flow-arrows"><button data-flow-prev aria-label="Vídeo anterior">↑</button><button data-flow-next aria-label="Próximo vídeo">↓</button></div></article>`).join('');
+    const items=[...feed.querySelectorAll('.flow-item')],pending=new Map(),loadedAt=new Map();let active=null;
+    const loadPlayer=async(article,force=false)=>{
+      const media=article.querySelector('.flow-media'),id=media.dataset.flowVideo;
+      if(pending.has(id))return pending.get(id);
+      const old=media.querySelector('video');
+      if(!force&&old&&Date.now()-(loadedAt.get(id)||0)<13*60*1000)return old;
+      const work=(async()=>{
+        old?.pause();media.innerHTML=`<div class="flow-loading" role="status">${pro('loading')}</div>`;
+        try{
+          const v=videos.find(v=>v.id===id);
+          const {data,error}=await sb.storage.from('bt-course-videos').createSignedUrl(v.storage_path,900);
+          if(error||!data?.signedUrl)throw error||new Error('Media unavailable');
+          media.innerHTML=playerMarkup(data.signedUrl,window.BTSecurity.safeImage(v.thumbnail_url),true);
+          const host=media.querySelector('.tiger-player');host.classList.add('is-loading');
+          host.insertAdjacentHTML('beforeend',`<span class="flow-loading" role="status">${pro('loading')}</span>`);
+          const player=bindPlayer(host);player.muted=true;player.defaultMuted=true;player.playsInline=true;player.preload='auto';
+          const ready=()=>{host.classList.remove('is-loading');host.querySelector('.player-error').hidden=true;};
+          player.addEventListener('loadeddata',ready);player.addEventListener('playing',ready);player.addEventListener('waiting',()=>host.classList.add('is-loading'));
+          player.addEventListener('error',()=>{
+            host.classList.remove('is-loading','playing');const status=host.querySelector('.player-error');
+            status.innerHTML=`<span>${pro(player.error?.code===4?'flowUnsupported':'loadError')}</span><button class="btn btn-primary" data-flow-reload>${pro('retry')}</button>`;status.hidden=false;
+            status.querySelector('button').onclick=()=>activate(article,true);
+          });
+          loadedAt.set(id,Date.now());return player;
+        }catch(error){
+          const access=[400,401,403].includes(Number(error?.statusCode||error?.status));
+          media.innerHTML=`<div class="flow-empty" role="alert"><p>${pro(access?'protected':'loadError')}</p><button class="btn btn-primary" data-flow-reload>${pro('retry')}</button>${access?`<a class="btn btn-glass" href="/blacktigersbjj/entrar/">${pro('signIn')}</a>`:''}</div>`;
+          media.querySelector('button').onclick=()=>activate(article,true);return null;
+        }
+      })();pending.set(id,work);try{return await work;}finally{pending.delete(id);}
+    };
+    const activate=async(article,force=false)=>{
+      if(!article)return;active=article;
+      feed.querySelectorAll('video').forEach(v=>{if(v.closest('.flow-item')!==article)v.pause();});
+      const player=await loadPlayer(article,force);
+      if(player&&active===article&&!document.hidden){try{await player.play();}catch{player.closest('.tiger-player').classList.remove('playing','is-loading');}}
+    };
+    // Initialize the visible clip directly: mobile playback does not depend on an observer callback.
+    const requested=new URLSearchParams(location.search).get('id');
+    const initial=items.find(item=>item.id==='flow-'+requested)||items[0];
+    if(initial!==items[0])feed.scrollTop=initial.offsetTop-items[0].offsetTop;
+    activate(initial);
+    const observer=new IntersectionObserver(entries=>{
+      for(const entry of entries){
+        if(entry.isIntersecting&&entry.intersectionRatio>=.6){if(active!==entry.target)activate(entry.target);}
+        else{entry.target.querySelector('video')?.pause();if(active===entry.target)active=null;}
+      }
+    },{root:feed,threshold:[0,.6]});items.forEach(item=>observer.observe(item));
+    const stepFlow=(article,direction)=>{const next=direction>0?article?.nextElementSibling:article?.previousElementSibling;if(next)feed.scrollTo({top:next.offsetTop-items[0].offsetTop,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});};
     feed.querySelectorAll('[data-flow-next],[data-flow-prev]').forEach(b=>b.onclick=()=>stepFlow(b.closest('article'),b.hasAttribute('data-flow-next')?1:-1));
-    feed.addEventListener('keydown',event=>{if(event.target.closest('input,select,button'))return;if(['ArrowDown','ArrowUp','PageDown','PageUp'].includes(event.key)){event.preventDefault();stepFlow(active||feed.firstElementChild,['ArrowDown','PageDown'].includes(event.key)?1:-1);}});
-    feed.querySelectorAll('[data-flow-save]').forEach(b=>b.onclick=()=>{const ids=window.BTSecurity.storedList('bt-flow-saved');const id=b.dataset.flowSave;const saved=ids.includes(id);window.BTStorage.setItem('bt-flow-saved',JSON.stringify(saved?ids.filter(v=>v!==id):[...ids,id]));b.textContent=bt.text(saved?'♡ Salvar':'♥ Salvo');});
+    feed.addEventListener('keydown',event=>{if(event.target.closest('input,select,button'))return;if(['ArrowDown','ArrowUp','PageDown','PageUp'].includes(event.key)){event.preventDefault();stepFlow(active||items[0],['ArrowDown','PageDown'].includes(event.key)?1:-1);}});
+    feed.querySelectorAll('[data-flow-save]').forEach(b=>b.onclick=()=>{const ids=window.BTSecurity.storedList('bt-flow-saved'),id=b.dataset.flowSave,saved=ids.includes(id);window.BTStorage.setItem('bt-flow-saved',JSON.stringify(saved?ids.filter(v=>v!==id):[...ids,id]));b.textContent=bt.text(saved?'♡ Salvar':'♥ Salvo');});
     feed.querySelectorAll('[data-flow-share]').forEach(b=>b.onclick=async()=>{const url=location.origin+'/blacktigersbjj/flow/?id='+b.dataset.flowShare;try{if(navigator.share)await navigator.share({title:'Tiger Flow',url});else{await navigator.clipboard.writeText(url);b.textContent=bt.text('Link copiado');}}catch{}});
-    document.addEventListener('visibilitychange',()=>{if(document.hidden)feed.querySelectorAll('video').forEach(v=>v.pause());});
-    const id=new URLSearchParams(location.search).get('id');if(id)document.getElementById('flow-'+id)?.scrollIntoView({block:'nearest'});
-  } catch {feed.innerHTML='<div class="flow-empty">Não foi possível carregar os vídeos. Tente novamente.</div>';}
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)feed.querySelectorAll('video').forEach(v=>v.pause());else if(active)activate(active);});
+    window.addEventListener('pagehide',()=>{observer.disconnect();feed.querySelectorAll('video').forEach(v=>v.pause());},{once:true});
+  }catch{
+    feed.innerHTML=`<div class="flow-empty" role="alert"><p>${pro('loadError')}</p><button class="btn btn-primary" data-flow-retry>${pro('retry')}</button></div>`;
+    feed.querySelector('button').onclick=()=>initFlow();
+  }finally{feed.setAttribute('aria-busy','false');}
 }
 function studentPanel(subs=false){return `<article class="admin-card"><div class="card-head"><div><span class="eyebrow">GESTÃO DE ACESSO</span><h2>${subs?'Assinaturas dos alunos':'Alunos'}</h2><p>Edite perfis e controle o acesso manual à biblioteca.</p></div></div><label class="search-box">${icons.search}<input data-student-search placeholder="Buscar por nome ou e-mail"></label><div class="student-list" data-student-list></div><div class="student-pager"><button class="btn btn-ghost" data-student-prev>Anterior</button><span data-student-page></span><button class="btn btn-ghost" data-student-next>Próxima</button></div></article><dialog id="${subs?'subscription':'student'}Dialog" class="student-dialog"></dialog>`;}
 let studentPage=1,studentData=[];
@@ -283,7 +334,7 @@ function proStatus(){return window.BT_BUSINESS?.salesEnabled?'':`<div class="pro
 function proSupport(){const email=window.BT_BUSINESS?.supportEmail;if(email&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return `<a class="btn btn-ghost" href="mailto:${proEscape(email)}">${proEscape(email)}</a>`;return `<p class="pro-muted">${pro('supportPending')}</p>`;}
 function proPage(title,body){return `${header()}${proStatus()}<main id="main-content" class="pro-main"><div class="pro-document"><a class="pro-back" href="/blacktigersbjj/">← ${pro('back')}</a><h1>${title}</h1>${body}</div></main>${footer()}${searchOverlay()}`;}
 function footer(){return `${legacyFooter()}<section class="pro-legal-footer"><nav aria-label="${pro('help')}">${[['ajuda','help'],['privacidade','privacy'],['termos','terms'],['reembolso','refund'],['acessibilidade','accessibility']].map(([path,key])=>`<a href="/blacktigersbjj/${path}/">${pro(key)}</a>`).join('')}</nav><p>${pro('audioNote')}</p><p>© ${new Date().getFullYear()} Black Tigers BJJ</p></section>`;}
-function homePage(){return `${header()}${proStatus()}<main id="main-content" class="pro-home"><section class="pro-hero"><img src="/blacktigersbjj/assets/hero-bjj-red-v1.png" alt="" fetchpriority="high" width="1536" height="1024"><div class="pro-hero-shade"></div><div class="pro-hero-inner"><span class="eyebrow">${pro('eyebrow')}</span><h1>${pro('hero1')}<br><em>${pro('hero2')}</em></h1><p>${pro('heroText')}</p><div class="pro-actions"><a class="btn btn-primary btn-large" href="/blacktigersbjj/catalogo/">${icons.play}${pro('catalog')}</a><a class="btn btn-glass btn-large" href="/blacktigersbjj/planos/">${pro('viewPlans')} ↗</a></div><div class="pro-hero-tags"><span class="bt-hero-label">BRAZILIAN JIU-JITSU</span><span>PT-BR</span><span>PT-PT</span><span>IT</span><span>ES</span><span>EN</span></div></div></section><div class="bt-discipline" aria-hidden="true"><span>TECHNIQUE</span><i>✳</i><span>FOCUS</span><i>✳</i><span>JIU-JITSU</span><i>✳</i><span>BLACK TIGERS</span></div><div class="pro-shell"><section class="bt-journey"><div class="bt-journey-photo"><img src="/blacktigersbjj/assets/course-guard-v1.png" alt="" loading="lazy" width="1536" height="1024"><span>BLACK TIGERS / THE STUDY</span></div><div class="bt-journey-copy"><span class="eyebrow">BLACK TIGERS METHOD</span><h2>${pro('method')}</h2><p>${pro('methodText')}</p><ol>${[1,2,3].map(n=>`<li><span>0${n}</span><div><h3>${pro('feature'+n)}</h3><p>${pro('feature'+n+'Text')}</p></div></li>`).join('')}</ol><a class="btn btn-primary" href="/blacktigersbjj/catalogo/">${pro('catalog')} ↗</a></div></section><section class="pro-catalog-section"><div class="pro-section-head"><div><span class="eyebrow">BLACK TIGERS LIBRARY</span><h2>${pro('available')}</h2><p>${pro('accessNote')}</p></div><a href="/blacktigersbjj/catalogo/">${pro('catalog')} ↗</a></div><div class="catalog-grid poster-catalog" id="publicVideoGrid" aria-live="polite"><p class="pro-muted">${pro('loading')}</p></div></section><a class="pro-flow-feature" href="/blacktigersbjj/flow/"><div><span class="eyebrow">${pro('flow')}</span><h2>Tiger <em>Flow</em></h2><p>${pro('methodText')}</p></div><span aria-hidden="true">↗</span></a><section class="pro-global"><div class="pro-globe" aria-hidden="true">◎</div><div><span class="eyebrow">BR · PT · IT · ES · US · CA</span><h2>${pro('international')}</h2><p>${pro('internationalText')}</p><small>${pro('audioNote')}</small></div></section><section class="pro-faq"><h2>${pro('help')}</h2>${proFAQ()}<a class="btn btn-ghost" href="/blacktigersbjj/ajuda/">${pro('help')} ↗</a></section></div></main>${footer()}${searchOverlay()}`;}
+function homePage(){return `${header()}${proStatus()}<main id="main-content" class="pro-home"><section class="pro-hero"><img src="/blacktigersbjj/assets/hero-bjj.jpg" alt="" fetchpriority="high" width="1536" height="1024"><div class="pro-hero-shade"></div><div class="pro-hero-inner"><span class="eyebrow">${pro('eyebrow')}</span><h1>${pro('hero1')}<br><em>${pro('hero2')}</em></h1><p>${pro('heroText')}</p><div class="pro-actions"><a class="btn btn-primary btn-large" href="/blacktigersbjj/catalogo/">${icons.play}${pro('catalog')}</a><a class="btn btn-glass btn-large" href="/blacktigersbjj/planos/">${pro('viewPlans')} ↗</a></div><div class="pro-hero-tags"><span class="bt-hero-label">BRAZILIAN JIU-JITSU</span><span>PT-BR</span><span>PT-PT</span><span>IT</span><span>ES</span><span>EN</span></div></div></section><div class="bt-discipline" aria-hidden="true"><span>TECHNIQUE</span><i>✳</i><span>FOCUS</span><i>✳</i><span>JIU-JITSU</span><i>✳</i><span>BLACK TIGERS</span></div><div class="pro-shell"><section class="bt-journey"><div class="bt-journey-photo"><img src="/blacktigersbjj/assets/course-guard.jpg" alt="" loading="lazy" width="1536" height="1024"><span>BLACK TIGERS / THE STUDY</span></div><div class="bt-journey-copy"><span class="eyebrow">BLACK TIGERS METHOD</span><h2>${pro('method')}</h2><p>${pro('methodText')}</p><ol>${[1,2,3].map(n=>`<li><span>0${n}</span><div><h3>${pro('feature'+n)}</h3><p>${pro('feature'+n+'Text')}</p></div></li>`).join('')}</ol><a class="btn btn-primary" href="/blacktigersbjj/catalogo/">${pro('catalog')} ↗</a></div></section><section class="pro-catalog-section"><div class="pro-section-head"><div><span class="eyebrow">BLACK TIGERS LIBRARY</span><h2>${pro('available')}</h2><p>${pro('accessNote')}</p></div><a href="/blacktigersbjj/catalogo/">${pro('catalog')} ↗</a></div><div class="catalog-grid poster-catalog" id="publicVideoGrid" aria-live="polite"><p class="pro-muted">${pro('loading')}</p></div></section><a class="pro-flow-feature" href="/blacktigersbjj/flow/"><div><span class="eyebrow">${pro('flow')}</span><h2>Tiger <em>Flow</em></h2><p>${pro('methodText')}</p></div><span aria-hidden="true">↗</span></a><section class="pro-global"><div class="pro-globe" aria-hidden="true">◎</div><div><span class="eyebrow">BR · PT · IT · ES · US · CA</span><h2>${pro('international')}</h2><p>${pro('internationalText')}</p><small>${pro('audioNote')}</small></div></section><section class="pro-faq"><h2>${pro('help')}</h2>${proFAQ()}<a class="btn btn-ghost" href="/blacktigersbjj/ajuda/">${pro('help')} ↗</a></section></div></main>${footer()}${searchOverlay()}`;}
 function catalogPage(){return `${header()}${proStatus()}<main id="main-content" class="pro-main"><section class="pro-shell"><div class="pro-section-head"><div><span class="eyebrow">BLACK TIGERS LIBRARY</span><h1>${pro('available')}</h1><p>${pro('accessNote')}</p></div></div><label class="search-box pro-search">${icons.search}<span class="sr-only">${pro('catalog')}</span><input id="catalogSearch" type="search" placeholder="${tr('catalog.search','Buscar por técnica ou curso')}"></label><div class="catalog-grid poster-catalog" id="catalogGrid" aria-live="polite"><p>${pro('loading')}</p></div><p id="catalogEmpty" class="empty-state" hidden>${pro('empty')}</p><aside class="pro-info"><strong>${pro('audio')}</strong><p>${pro('audioNote')}</p></aside></section></main>${footer()}${searchOverlay()}`;}
 function proLessonCard(item){const href=`/blacktigersbjj/curso/?id=${encodeURIComponent(item.id)}`;return `<article class="pro-lesson-card" data-no-translate data-search="${proEscape((item.title+' '+(item.description||'')).toLowerCase())}"><a href="${href}"><div class="pro-lesson-image"><img src="${proEscape(window.BTSecurity.safeImage(item.thumbnail_url))}" alt="" loading="lazy" width="640" height="360"><span class="pro-lesson-play">${icons.play}</span><small>${item.duration_seconds?duration(item.duration_seconds):'Black Tigers'}</small></div><div class="pro-lesson-copy"><span>${item.access_level==='free'?tr('common.free','Grátis'):tr('common.subscriber','Assinante')}</span><h3>${proEscape(item.title)}</h3><p>${proEscape(item.description||'')}</p></div></a></article>`;}
 async function initCatalog(){
