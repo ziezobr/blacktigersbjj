@@ -1,7 +1,7 @@
 // Public business information only. Never put API secrets or payment keys here.
 window.BT_BUSINESS = Object.freeze({
   brand: 'Black Tigers BJJ',
-  mediaBridge: 'https://ziezobr.github.io',
+  mediaBridge: 'https://black-tigers-bjj.renzorfx.chatgpt.site',
   legalName: '',
   registration: '',
   country: '',
