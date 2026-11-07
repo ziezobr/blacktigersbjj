@@ -146,7 +146,7 @@ function adminShell() {
 }
 
 function flowBanner(){return `<a class="flow-banner" href="/blacktigersbjj/flow/"><span><small>TÉCNICA EM MOVIMENTO</small><strong>Tiger <em>Flow</em></strong><p>Pequenos ajustes. Grandes evoluções.</p></span><b>Explorar vídeos curtos ↗</b></a>`;}
-function flowPage(){return `${header()}<main class="flow-page"><div class="flow-heading"><span class="eyebrow">BLACK TIGERS ORIGINAL</span><h1>Tiger <em>Flow</em></h1><p>Técnicas curtas para levar ao tatame.</p></div><div id="flowFeed" class="flow-feed" role="region" aria-label="Tiger Flow" tabindex="0"><div class="flow-empty">Carregando…</div></div></main>${footer()}`;}
+function flowPage(){return `${header()}<main id="main-content" class="flow-page"><h1 class="flow-heading">Tiger Flow</h1><a class="flow-desktop-brand" href="/blacktigersbjj/">BLACK TIGERS<span>JIU-JITSU / TIGER FLOW</span></a><div class="flow-top"><a class="flow-back" href="/blacktigersbjj/" aria-label="Voltar ao início">‹</a><div class="flow-tabs" role="group" aria-label="Biblioteca Tiger Flow"><button data-flow-filter="all" aria-pressed="true">Explorar</button><button data-flow-filter="saved" aria-pressed="false">Salvos</button></div><span id="flowCounter" class="flow-counter"></span></div><div id="flowFeed" class="flow-feed" role="region" aria-label="Tiger Flow · deslize para o próximo vídeo" tabindex="0"><div class="flow-empty">Carregando…</div></div><div class="flow-desktop-nav"><button data-flow-prev aria-label="Vídeo anterior" disabled>↑</button><button data-flow-next aria-label="Próximo vídeo" disabled>↓</button><small>Deslize para explorar.<br>Dois toques para salvar.</small></div><p id="flowStatus" class="sr-only" role="status" aria-live="polite"></p></main>${mobileDock()}${searchOverlay()}`;}
 async function loadPublicVideos(){return (await loadAllPublishedVideos()).filter(v=>v.format!=='short');}
 
 function initAuthPage(){
@@ -258,76 +258,132 @@ async function initWatch(){
   document.querySelector('.watch-copy').insertAdjacentHTML('beforeend','<p class="player-hint">Espaço: reproduzir · ← →: 10 segundos · F: tela cheia · M: áudio</p><button class="btn btn-ghost" id="theater">Modo cinema</button>');
   document.getElementById('theater').onclick=()=>document.querySelector('.watch-layout').classList.toggle('cinema');
 }
+function flowIcon(name){
+  const paths={save:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',saved:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" fill="currentColor"/>',share:'<path d="m14 3 8 7-8 7v-4C8 13 4 16 2 21c0-9 4-14 12-14Z" fill="currentColor" stroke-linejoin="round"/>',sound:'<path d="m11 4-6 5H2v6h3l6 5Z"/><path d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/>',muted:'<path d="m11 4-6 5H2v6h3l6 5Z"/><path d="m17 9 5 6m0-6-5 6"/>'};
+  return paths[name]?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`:'';
+}
+function flowClipMarkup(v){
+  const saved=window.BTSecurity.storedList('bt-flow-saved').includes(v.id);
+  return `<article class="flow-item" id="flow-${v.id}" data-no-translate aria-label="${escapeHTML(v.title)}"><div class="flow-media" data-flow-video="${v.id}"><div class="flow-loading" role="status">${pro('loading')}</div></div><div class="flow-shade" aria-hidden="true"></div><button class="flow-tap" aria-label="Reproduzir ou pausar vídeo"><span class="flow-play-indicator" aria-hidden="true">▶</span></button><span class="flow-heart" aria-hidden="true">♥</span><div class="flow-caption"><a class="flow-author" href="/blacktigersbjj/catalogo/">@blacktigersbjj <span aria-label="Equipe Black Tigers">✦</span></a><h2>${escapeHTML(v.title)}</h2>${v.description?`<button class="flow-description" aria-expanded="false">${escapeHTML(v.description)}</button>`:''}<span class="flow-audio-label">♫ Black Tigers · ${bt.text('Áudio original')}</span></div><div class="flow-actions"><a class="flow-avatar" href="/blacktigersbjj/catalogo/" aria-label="Explorar cursos Black Tigers"><img src="/blacktigersbjj/assets/black-tigers-logo-small.png" alt="" width="46" height="46"></a><button data-flow-save="${v.id}" aria-label="${saved?'Remover dos salvos':'Salvar vídeo'}" aria-pressed="${saved}"><i>${flowIcon(saved?'saved':'save')}</i><span>${saved?'Salvo':'Salvar'}</span></button><button data-flow-share="${v.id}" aria-label="Compartilhar vídeo"><i>${flowIcon('share')}</i><span>Compartilhar</span></button><button data-flow-mute aria-label="Ativar som" aria-pressed="false"><i>${flowIcon('muted')}</i><span>Som</span></button></div><div class="flow-bottom"><button data-flow-play aria-label="Pausar vídeo">Ⅱ</button><span data-flow-time>0:00 / ${duration(v.duration_seconds)}</span><input data-flow-seek type="range" min="0" max="100" step="0.1" value="0" aria-label="Posição do vídeo"></div></article>`;
+}
 async function initFlow(){
   const feed=document.getElementById('flowFeed');if(!feed)return;
-  feed.setAttribute('aria-busy','true');
-  try{
-    if(!sb)throw new Error('Service unavailable');
-    const {data:videos,error}=await sb.from('bt_videos').select('id,title,description,storage_path,thumbnail_url,access_level,duration_seconds').eq('published',true).eq('format','short').order('featured',{ascending:false}).order('created_at',{ascending:false});
-    if(error)throw error;
-    if(!videos?.length){feed.innerHTML='<div class="flow-empty"><span>↗</span><h2>Seu próximo ajuste começa aqui.</h2><p>Os vídeos curtos publicados pela equipe aparecerão no Tiger Flow.</p><a class="btn btn-primary" href="/blacktigersbjj/catalogo/">Explorar aulas</a></div>';return;}
-    feed.innerHTML=videos.map(v=>`<article class="flow-item" id="flow-${v.id}"><div class="flow-media" data-flow-video="${v.id}" aria-live="polite"><div class="flow-loading" role="status">${pro('loading')}</div></div><div class="flow-caption"><span>TIGER FLOW</span><h2>${escapeHTML(v.title)}</h2><p>${escapeHTML(v.description||'')}</p><button class="btn btn-glass" data-flow-save="${v.id}">♡ Salvar</button><button class="btn btn-glass" data-flow-share="${v.id}">Compartilhar</button></div><div class="flow-arrows"><button data-flow-prev aria-label="Vídeo anterior">↑</button><button data-flow-next aria-label="Próximo vídeo">↓</button></div></article>`).join('');
-    const items=[...feed.querySelectorAll('.flow-item')],pending=new Map(),loadedAt=new Map();let active=null;
-    const loadPlayer=async(article,force=false)=>{
-      const media=article.querySelector('.flow-media'),id=media.dataset.flowVideo;
-      if(pending.has(id))return pending.get(id);
-      const old=media.querySelector('video');
-      if(!force&&old&&Date.now()-(loadedAt.get(id)||0)<13*60*1000)return old;
-      const work=(async()=>{
-        old?.pause();media.innerHTML=`<div class="flow-loading" role="status">${pro('loading')}</div>`;
-        try{
-          const v=videos.find(v=>v.id===id);
-          const {data,error}=await resolveVideoPlayback(v);
-          if(error||!data?.signedUrl)throw error||new Error('Media unavailable');
-          media.innerHTML=playerMarkup(data.signedUrl,window.BTSecurity.safeImage(v.thumbnail_url),true);
-          const host=media.querySelector('.tiger-player');host.classList.add('is-loading');
-          host.insertAdjacentHTML('beforeend',`<span class="flow-loading" role="status">${pro('loading')}</span>`);
-          const player=bindPlayer(host);player.muted=true;player.defaultMuted=true;player.playsInline=true;player.preload='auto';
-          const ready=()=>{host.classList.remove('is-loading');host.querySelector('.player-error').hidden=true;};
-          player.addEventListener('loadeddata',ready);player.addEventListener('playing',ready);player.addEventListener('waiting',()=>host.classList.add('is-loading'));
-          player.addEventListener('error',()=>{
-            host.classList.remove('is-loading','playing');const status=host.querySelector('.player-error');
-            status.innerHTML=`<span>${pro(player.error?.code===4?'flowUnsupported':'loadError')}</span><button class="btn btn-primary" data-flow-reload>${pro('retry')}</button>`;status.hidden=false;
-            status.querySelector('button').onclick=()=>activate(article,true);
-          });
-          loadedAt.set(id,Date.now());return player;
-        }catch(error){
-          const access=[400,401,403].includes(Number(error?.statusCode||error?.status));
-          media.innerHTML=`<div class="flow-empty" role="alert"><p>${pro(access?'protected':'loadError')}</p><button class="btn btn-primary" data-flow-reload>${pro('retry')}</button>${access?`<a class="btn btn-glass" href="/blacktigersbjj/entrar/">${pro('signIn')}</a>`:''}</div>`;
-          media.querySelector('button').onclick=()=>activate(article,true);return null;
-        }
-      })();pending.set(id,work);try{return await work;}finally{pending.delete(id);}
-    };
-    const activate=async(article,force=false)=>{
-      if(!article)return;active=article;
-      feed.querySelectorAll('video').forEach(v=>{if(v.closest('.flow-item')!==article)v.pause();});
-      feed.querySelectorAll('.drive-flow-preview').forEach(preview=>{if(preview.closest('.flow-item')!==article){preview.querySelector('iframe')?.remove();preview.classList.remove('is-playing');preview.querySelector('[data-drive-play]').hidden=false;}});
-      const player=await loadPlayer(article,force);
-      if(player&&active===article&&!document.hidden){try{await player.play();}catch{player.closest('.tiger-player').classList.remove('playing','is-loading');}}
-    };
-    // Initialize the visible clip directly: mobile playback does not depend on an observer callback.
-    const requested=new URLSearchParams(location.search).get('id');
-    const initial=items.find(item=>item.id==='flow-'+requested)||items[0];
-    if(initial!==items[0])feed.scrollTop=initial.offsetTop-items[0].offsetTop;
-    activate(initial);
-    const observer=new IntersectionObserver(entries=>{
-      for(const entry of entries){
-        if(entry.isIntersecting&&entry.intersectionRatio>=.6){if(active!==entry.target)activate(entry.target);}
-        else{entry.target.querySelector('video')?.pause();if(active===entry.target)active=null;}
-      }
-    },{root:feed,threshold:[0,.6]});items.forEach(item=>observer.observe(item));
-    const stepFlow=(article,direction)=>{const next=direction>0?article?.nextElementSibling:article?.previousElementSibling;if(next)feed.scrollTo({top:next.offsetTop-items[0].offsetTop,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});};
-    feed.querySelectorAll('[data-flow-next],[data-flow-prev]').forEach(b=>b.onclick=()=>stepFlow(b.closest('article'),b.hasAttribute('data-flow-next')?1:-1));
-    feed.addEventListener('keydown',event=>{if(event.target.closest('input,select,button'))return;if(['ArrowDown','ArrowUp','PageDown','PageUp'].includes(event.key)){event.preventDefault();stepFlow(active||items[0],['ArrowDown','PageDown'].includes(event.key)?1:-1);}});
-    feed.querySelectorAll('[data-flow-save]').forEach(b=>b.onclick=()=>{const ids=window.BTSecurity.storedList('bt-flow-saved'),id=b.dataset.flowSave,saved=ids.includes(id);window.BTStorage.setItem('bt-flow-saved',JSON.stringify(saved?ids.filter(v=>v!==id):[...ids,id]));b.textContent=bt.text(saved?'♡ Salvar':'♥ Salvo');});
-    feed.querySelectorAll('[data-flow-share]').forEach(b=>b.onclick=async()=>{const url=location.origin+'/blacktigersbjj/flow/?id='+b.dataset.flowShare;try{if(navigator.share)await navigator.share({title:'Tiger Flow',url});else{await navigator.clipboard.writeText(url);b.textContent=bt.text('Link copiado');}}catch{}});
-    document.addEventListener('visibilitychange',()=>{if(document.hidden){feed.querySelectorAll('video').forEach(v=>v.pause());feed.querySelectorAll('.drive-flow-preview').forEach(p=>{p.querySelector('iframe')?.remove();p.classList.remove('is-playing');p.querySelector('[data-drive-play]').hidden=false;});}else if(active)activate(active);});
-    window.addEventListener('pagehide',()=>{observer.disconnect();feed.querySelectorAll('video').forEach(v=>v.pause());},{once:true});
-  }catch{
-    feed.innerHTML=`<div class="flow-empty" role="alert"><p>${pro('loadError')}</p><button class="btn btn-primary" data-flow-retry>${pro('retry')}</button></div>`;
-    feed.querySelector('button').onclick=()=>initFlow();
-  }finally{feed.setAttribute('aria-busy','false');}
+  window.btFlowCleanup?.();
+  const lifecycle=new AbortController(),signal=lifecycle.signal;
+  const on=(node,event,fn,options={})=>node.addEventListener(event,fn,{...options,signal});
+  let videos=[],items=[],active=null,muted=true,manualPause=false,filter='all',offset=0,more=true,loading=false,frame=0,tapTimer=0,preloadTimer=0;
+  const pending=new Map(),loadedAt=new Map(),playerLifecycles=new Map(),size=12;
+  const status=document.getElementById('flowStatus'),counter=document.getElementById('flowCounter');
+  const lowData=()=>navigator.connection?.saveData||['slow-2g','2g'].includes(navigator.connection?.effectiveType);
+  const time=n=>`${Math.floor((n||0)/60)}:${String(Math.floor((n||0)%60)).padStart(2,'0')}`;
+  const empty=message=>`<div class="flow-empty"><span>↗</span><h2>${message}</h2><p>${bt.text('Salve as técnicas para rever no seu próximo treino.')}</p><a class="btn btn-primary" href="/blacktigersbjj/catalogo/">${bt.text('Explorar aulas')}</a></div>`;
+  const savedIds=()=>window.BTSecurity.storedList('bt-flow-saved');
+  const setStatus=message=>{if(status)status.textContent=message;};
+  const updateState=article=>{
+    const player=article.querySelector('video'),playing=!!player&&!player.paused;
+    article.classList.toggle('is-playing',playing);article.classList.toggle('is-muted',muted);
+    article.querySelector('.flow-tap').setAttribute('aria-label',playing?'Pausar vídeo':'Reproduzir vídeo');
+    const b=article.querySelector('[data-flow-play]');b.textContent=playing?'Ⅱ':'▶';b.setAttribute('aria-label',playing?'Pausar vídeo':'Reproduzir vídeo');
+    const m=article.querySelector('[data-flow-mute]');m.setAttribute('aria-label',muted?'Ativar som':'Silenciar');m.setAttribute('aria-pressed',String(!muted));m.querySelector('i').innerHTML=flowIcon(muted?'muted':'sound');
+  };
+  const dispose=article=>{playerLifecycles.get(article)?.abort();playerLifecycles.delete(article);const v=article.querySelector('video');if(v){v.pause();v.removeAttribute('src');v.load();v.remove();}loadedAt.delete(article.id);};
+  const loadPlayer=async(article,preload=false,force=false)=>{
+    const id=article.querySelector('[data-flow-video]').dataset.flowVideo,media=article.querySelector('.flow-media');
+    if(pending.has(id))return pending.get(id);
+    const old=media.querySelector('video');if(!force&&old&&Date.now()-(loadedAt.get(article.id)||0)<780000)return old;
+    const work=(async()=>{
+      dispose(article);article.classList.add('is-loading');article.querySelector('.flow-error')?.remove();
+      try{
+        const video=videos.find(v=>v.id===id),{data,error}=await resolveVideoPlayback(video);if(error||!data?.signedUrl)throw error||new Error('unavailable');
+        if(signal.aborted||!article.isConnected)return null;
+        media.innerHTML=`<video playsinline loop muted preload="${preload?'metadata':'auto'}" poster="${escapeHTML(window.BTSecurity.safeImage(video.thumbnail_url))}" src="${escapeHTML(data.signedUrl)}"></video><span class="flow-loading" role="status">${pro('loading')}</span>`;
+        const player=media.querySelector('video');player.muted=muted;player.defaultMuted=true;
+        const playerLifecycle=new AbortController();playerLifecycles.set(article,playerLifecycle);
+        const listen=(event,fn)=>player.addEventListener(event,fn,{signal:playerLifecycle.signal});
+        loadedAt.set(article.id,Date.now());
+        const ready=()=>article.classList.remove('is-loading');listen('loadeddata',ready);listen('playing',ready);
+        listen('waiting',()=>{if(active===article)article.classList.add('is-loading');});
+        listen('play',()=>updateState(article));listen('pause',()=>updateState(article));
+        listen('timeupdate',()=>{article.querySelector('[data-flow-seek]').value=player.duration?player.currentTime/player.duration*100:0;article.querySelector('[data-flow-time]').textContent=time(player.currentTime)+' / '+time(player.duration);});
+        listen('error',()=>showError(article));return player;
+      }catch{if(!signal.aborted)showError(article);return null;}
+    })();pending.set(id,work);try{return await work;}finally{if(pending.get(id)===work)pending.delete(id);}
+  };
+  const showError=article=>{
+    article.classList.remove('is-loading','is-playing');if(article.querySelector('.flow-error'))return;
+    article.insertAdjacentHTML('beforeend',`<div class="flow-error" role="alert"><p>${pro('loadError')}</p><button class="btn btn-primary" data-flow-retry>${pro('retry')}</button></div>`);
+    on(article.querySelector('[data-flow-retry]'),'click',()=>activate(article,true));
+  };
+  const activate=async(article,force=false)=>{
+    if(!article||signal.aborted)return;const changed=active!==article;active=article;if(changed)manualPause=false;
+    feed.querySelectorAll('video').forEach(v=>{if(v.closest('article')!==article)v.pause();});
+    const index=items.indexOf(article);if(counter)counter.textContent=`${index+1} / ${items.length}${more&&filter==='all'?'+':''}`;
+    document.querySelector('[data-flow-prev]').disabled=index===0;document.querySelector('[data-flow-next]').disabled=index===items.length-1&&(!more||filter==='saved');
+    if(changed)setStatus(article.getAttribute('aria-label'));
+    const player=await loadPlayer(article,false,force);
+    if(player&&active===article&&!document.hidden&&!manualPause&&!signal.aborted){player.muted=muted;try{await player.play();}catch{player.muted=true;muted=true;try{await player.play();}catch{manualPause=true;article.classList.remove('is-loading');}}updateState(article);}
+    if(signal.aborted||active!==article)return;
+    clearTimeout(preloadTimer);preloadTimer=setTimeout(()=>{
+      if(signal.aborted||active!==article)return;
+      items.forEach((item,i)=>{if(Math.abs(i-index)>1)dispose(item);});
+      if(!lowData()&&items[index+1])loadPlayer(items[index+1],true);
+    },350);
+    if(filter==='all'&&index>=items.length-3)loadMore();
+  };
+  const step=direction=>{const index=items.indexOf(active),next=items[index+direction];if(next)feed.scrollTo({top:next.offsetTop-items[0].offsetTop,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});};
+  const save=(article,ensure=false)=>{
+    const b=article.querySelector('[data-flow-save]'),id=b.dataset.flowSave,ids=savedIds(),exists=ids.includes(id),enabled=ensure||!exists;
+    window.BTStorage.setItem('bt-flow-saved',JSON.stringify(enabled?[id,...ids.filter(v=>v!==id)].slice(0,1000):ids.filter(v=>v!==id)));
+    b.setAttribute('aria-pressed',String(enabled));b.setAttribute('aria-label',enabled?'Remover dos salvos':'Salvar vídeo');b.querySelector('i').innerHTML=flowIcon(enabled?'saved':'save');b.querySelector('span').textContent=enabled?'Salvo':'Salvar';setStatus(enabled?'Vídeo salvo neste dispositivo.':'Vídeo removido dos salvos.');
+    if(ensure){article.classList.remove('show-heart');requestAnimationFrame(()=>article.classList.add('show-heart'));}
+  };
+  const toggle=article=>{const v=article.querySelector('video');if(!v){activate(article);return;}manualPause=!v.paused;if(v.paused)v.play().catch(()=>{manualPause=true;updateState(article);});else v.pause();};
+  const bind=article=>{
+    const tap=article.querySelector('.flow-tap');let x=0,y=0,moved=false;
+    on(tap,'pointerdown',e=>{x=e.clientX;y=e.clientY;moved=false;});on(tap,'pointermove',e=>{if(Math.abs(e.clientX-x)+Math.abs(e.clientY-y)>14)moved=true;});
+    on(tap,'click',e=>{if(moved)return;if(e.detail===0){toggle(article);return;}clearTimeout(tapTimer);if(e.detail===1)tapTimer=setTimeout(()=>toggle(article),230);});
+    on(tap,'dblclick',()=>{clearTimeout(tapTimer);save(article,true);});
+    on(article.querySelector('[data-flow-play]'),'click',()=>toggle(article));
+    on(article.querySelector('[data-flow-save]'),'click',()=>save(article));
+    const description=article.querySelector('.flow-description');if(description)on(description,'click',()=>description.setAttribute('aria-expanded',String(description.getAttribute('aria-expanded')!=='true')));
+    on(article.querySelector('[data-flow-mute]'),'click',()=>{muted=!muted;feed.querySelectorAll('video').forEach(v=>v.muted=muted);items.forEach(updateState);});
+    on(article.querySelector('[data-flow-seek]'),'input',e=>{const v=article.querySelector('video');if(v&&Number.isFinite(v.duration))v.currentTime=Number(e.target.value)/100*v.duration;});
+    on(article.querySelector('[data-flow-share]'),'click',async()=>{
+      const url=new URL(location.href);url.search='';url.hash='';url.searchParams.set('id',article.querySelector('[data-flow-save]').dataset.flowSave);
+      try{if(navigator.share)await navigator.share({title:'Tiger Flow',url:url.href});else{await navigator.clipboard.writeText(url.href);setStatus('Link copiado.');}}catch(error){if(error.name!=='AbortError')setStatus('Não foi possível compartilhar agora.');}
+    });
+  };
+  const render=()=>{
+    items.forEach(dispose);pending.clear();active=null;
+    const visible=filter==='saved'?videos.filter(v=>savedIds().includes(v.id)):videos;
+    feed.innerHTML=visible.length?visible.map(flowClipMarkup).join(''):empty(filter==='saved'?'Suas técnicas favoritas, em um só lugar.':'Novas técnicas em breve.');
+    items=[...feed.querySelectorAll('.flow-item')];items.forEach(bind);feed.scrollTop=0;
+    if(items.length)activate(items[0]);else{if(counter)counter.textContent='0 / 0';document.querySelector('[data-flow-prev]').disabled=true;document.querySelector('[data-flow-next]').disabled=true;}
+  };
+  const loadMore=async(initial=false)=>{
+    if(loading||!more||signal.aborted)return;loading=true;feed.setAttribute('aria-busy','true');
+    try{
+      const {data,error}=await sb.from('bt_videos').select('id,title,description,storage_path,thumbnail_url,access_level,duration_seconds').eq('published',true).eq('format','short').order('featured',{ascending:false}).order('created_at',{ascending:false}).order('id',{ascending:false}).range(offset,offset+size-1).abortSignal(signal);if(error)throw error;
+      if(signal.aborted)return;offset+=data.length;more=data.length===size;
+      const added=data.filter(v=>!videos.some(existing=>existing.id===v.id));videos.push(...added);
+      if(initial){
+        const requested=new URLSearchParams(location.search).get('id');
+        if(window.BTSecurity.uuid(requested)&&!videos.some(v=>v.id===requested)){const {data:item}=await sb.from('bt_videos').select('id,title,description,storage_path,thumbnail_url,access_level,duration_seconds').eq('id',requested).eq('published',true).eq('format','short').maybeSingle().abortSignal(signal);if(item)videos.unshift(item);}
+        if(signal.aborted)return;render();const initialItem=items.find(item=>item.id==='flow-'+requested);if(initialItem){feed.scrollTop=initialItem.offsetTop-items[0].offsetTop;activate(initialItem);}
+      }else if(filter==='all'){for(const v of added){feed.insertAdjacentHTML('beforeend',flowClipMarkup(v));const article=feed.lastElementChild;items.push(article);bind(article);}if(counter&&active)counter.textContent=`${items.indexOf(active)+1} / ${items.length}${more?'+':''}`;}
+    }catch{if(!signal.aborted){if(initial){feed.innerHTML=`<div class="flow-empty" role="alert"><p>${pro('loadError')}</p><button class="btn btn-primary" data-flow-retry>${pro('retry')}</button></div>`;on(feed.querySelector('button'),'click',()=>initFlow());}else{setStatus('Não foi possível carregar mais vídeos.');more=false;}}}
+    finally{loading=false;feed.setAttribute('aria-busy','false');}
+  };
+  on(feed,'scroll',()=>{if(frame)return;frame=requestAnimationFrame(()=>{frame=0;const index=Math.max(0,Math.min(items.length-1,Math.round(feed.scrollTop/feed.clientHeight))),article=items[index];if(article&&active!==article)activate(article);});},{passive:true});
+  on(feed,'keydown',e=>{if(e.target.closest('input,button,a,select'))return;if(['ArrowDown','ArrowUp','PageDown','PageUp'].includes(e.key)){e.preventDefault();step(['ArrowDown','PageDown'].includes(e.key)?1:-1);}if(e.key===' '){e.preventDefault();if(active)toggle(active);}if(e.key.toLowerCase()==='m')active?.querySelector('[data-flow-mute]').click();});
+  document.querySelectorAll('[data-flow-prev],[data-flow-next]').forEach(b=>on(b,'click',()=>step(b.hasAttribute('data-flow-next')?1:-1)));
+  document.querySelectorAll('[data-flow-filter]').forEach(b=>on(b,'click',async()=>{filter=b.dataset.flowFilter;document.querySelectorAll('[data-flow-filter]').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));if(filter==='saved'){const ids=savedIds().filter(id=>window.BTSecurity.uuid(id)&&!videos.some(v=>v.id===id)).slice(0,100);if(ids.length){const {data}=await sb.from('bt_videos').select('id,title,description,storage_path,thumbnail_url,access_level,duration_seconds').in('id',ids).eq('published',true).eq('format','short').abortSignal(signal);if(data)videos.push(...data.filter(v=>!videos.some(x=>x.id===v.id)));}}if(!signal.aborted)render();}));
+  on(document,'visibilitychange',()=>{if(document.hidden)feed.querySelectorAll('video').forEach(v=>v.pause());else if(active&&!manualPause)activate(active);});
+  const cleanup=()=>{lifecycle.abort();clearTimeout(tapTimer);clearTimeout(preloadTimer);cancelAnimationFrame(frame);items.forEach(dispose);};
+  window.btFlowCleanup=cleanup;on(window,'pagehide',cleanup,{once:true});
+  await loadMore(true);
 }
+
 function studentPanel(subs=false){return `<article class="admin-card"><div class="card-head"><div><span class="eyebrow">GESTÃO DE ACESSO</span><h2>${subs?'Assinaturas dos alunos':'Alunos'}</h2><p>Edite perfis e controle o acesso manual à biblioteca.</p></div></div><label class="search-box">${icons.search}<input data-student-search placeholder="Buscar por nome ou e-mail"></label><div class="student-list" data-student-list></div><div class="student-pager"><button class="btn btn-ghost" data-student-prev>Anterior</button><span data-student-page></span><button class="btn btn-ghost" data-student-next>Próxima</button></div></article><dialog id="${subs?'subscription':'student'}Dialog" class="student-dialog"></dialog>`;}
 let studentPage=1,studentData=[];
 async function invokeAdminFunction(name,options){

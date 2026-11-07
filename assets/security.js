@@ -17,7 +17,7 @@
     },
     safeImage(value) {
       if (!value) return '/blacktigersbjj/assets/black-tigers-logo-small.png';
-      try {const url=new URL(String(value),location.origin);return ((url.origin===location.origin && ['http:','https:'].includes(url.protocol))||url.protocol==='https:')?url.href:'/blacktigersbjj/assets/black-tigers-logo-small.png';}
+      try {const url=new URL(String(value),location.origin);return !url.username&&!url.password&&((url.origin===location.origin && ['http:','https:'].includes(url.protocol))||url.protocol==='https:')?url.href:'/blacktigersbjj/assets/black-tigers-logo-small.png';}
       catch{return '/blacktigersbjj/assets/black-tigers-logo-small.png';}
     },
     storedList(key) {
